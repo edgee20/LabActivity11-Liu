@@ -20,6 +20,46 @@ php artisan serve
 
 The bulletin is available at `/posts`.
 
+## Seeded accounts
+
+Both named accounts use the password `bulletin2026`:
+
+| Name | Email | Role |
+| --- | --- | --- |
+| Lola Liu | `lola.liu@bulletin.test` | Resident |
+| Kagawad Ej Liu | `kagawad.liu@bulletin.test` | Author |
+
+The seeder also creates eight additional resident users with the user factory.
+
+## Seeded tags
+
+The five tags are:
+
+- Purok Liu
+- Urgent
+- Community
+- Announcement
+- Events
+
+The pinned clean-up post always receives `Purok Liu` and `Urgent`. Other published
+posts receive one to three tags through the `Post::tags()` relationship.
+
+## Relationship map
+
+- `User::author()` is `hasOne` because one login account can own one author profile.
+- `User::comments()` is `hasMany` because a user can write many comments.
+- `Author::user()` is `belongsTo` because the author profile stores `user_id`.
+- `Author::posts()` is `hasMany` because an author publishes many posts.
+- `Author::comments()` is `hasManyThrough` through posts to count comments received.
+- `Post::author()` is `belongsTo` because posts store `author_id`.
+- `Post::comments()` is `hasMany` because a post can receive many comments.
+- `Post::tags()` and `Tag::posts()` are `belongsToMany` through the `post_tag` pivot.
+- `Comment::post()` and `Comment::user()` are `belongsTo` because comments store both
+  foreign keys.
+
+Controllers eager-load the relationships needed by each view. Development and test
+environments also prevent lazy loading so N+1 queries are detected early.
+
 ## Laravel
 
 <p align="center">

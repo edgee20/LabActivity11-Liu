@@ -25,13 +25,30 @@
                         <a href="{{ route('posts.index') }}" class="rounded-md px-3 py-2 text-blue-100 hover:bg-blue-700 hover:text-white">
                             Bulletin
                         </a>
+                        @if (auth()->user()->author()->exists())
+                            <a href="{{ route('posts.create') }}" class="rounded-md px-3 py-2 text-blue-100 hover:bg-blue-700 hover:text-white">
+                                New post
+                            </a>
+                        @endif
                     </div>
 
                     <span class="hidden border-l border-blue-600 pl-3 text-blue-100 md:inline">
                         Hi, {{ auth()->user()->name }}
                     </span>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="rounded-md bg-white px-3 py-2 font-medium text-blue-800 hover:bg-blue-50">
+                            Logout
+                        </button>
+                    </form>
                 </div>
             @endauth
+
+            @guest
+                <a href="{{ route('login') }}" class="rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-800 hover:bg-blue-50">
+                    Sign in
+                </a>
+            @endguest
         </div>
     </nav>
 
