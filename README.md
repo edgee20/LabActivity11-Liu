@@ -38,10 +38,10 @@ The five tags are:
 - Purok Liu
 - Urgent
 - Community
-- Announcement
-- Events
+- Libre
+- Schedule
 
-The pinned clean-up post always receives `Purok Liu` and `Urgent`. Other published
+The pinned clean-up post always receives `Purok Liu` and `Urgent`. Other
 posts receive one to three tags through the `Post::tags()` relationship.
 
 ## Relationship map

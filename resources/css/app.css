@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    main {
+        @apply w-full;
+    }
+
+    h1, h2, h3, article p, article a {
+        overflow-wrap: anywhere;
+    }
+
+    a, button, input, select, textarea {
+        @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600;
+    }
+
+    textarea {
+        @apply resize-y;
+    }
+}

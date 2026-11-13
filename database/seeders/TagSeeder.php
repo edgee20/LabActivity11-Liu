@@ -17,9 +17,9 @@ class TagSeeder extends Seeder
             'Purok Liu',
             'Urgent',
             'Community',
-            'Announcement',
-            'Events',
-        ])->mapWithKeys(fn (string $name) => [$name => Tag::create(['name' => $name])]);
+            'Libre',
+            'Schedule',
+        ])->mapWithKeys(fn (string $name) => [$name => Tag::firstOrCreate(['name' => $name])]);
 
         $pinnedPost = Post::where('is_pinned', true)->firstOrFail();
         $pinnedPost->tags()->sync([
@@ -27,10 +27,11 @@ class TagSeeder extends Seeder
             $tags['Urgent']->id,
         ]);
 
-        Post::where('is_published', true)
-            ->where('id', '!=', $pinnedPost->id)
+        Post::where('id', '!=', $pinnedPost->id)
             ->each(function (Post $post) use ($tags): void {
-                $post->tags()->sync($tags->random(random_int(1, 3))->pluck('id')->all());
+                if (! $post->tags()->exists()) {
+                    $post->tags()->sync($tags->random(random_int(1, 3))->pluck('id')->all());
+                }
             });
     }
 }

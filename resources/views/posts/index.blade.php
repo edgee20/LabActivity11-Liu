@@ -14,12 +14,12 @@
             @endif
         </div>
 
-        <form method="GET" action="{{ route('posts.index') }}" class="mb-8 flex flex-col gap-2 rounded-lg bg-white p-4 shadow-sm sm:flex-row">
+        <form method="GET" action="{{ route('posts.index') }}" class="mb-8 flex flex-col gap-2 rounded-lg bg-white p-4 shadow-sm md:flex-row md:flex-wrap">
             <label class="sr-only" for="q">Search title</label>
-            <input id="q" name="q" value="{{ request('q') }}" placeholder="Search title" class="rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:flex-1">
+            <input id="q" name="q" value="{{ request('q') }}" placeholder="Search title" class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 min-w-0 md:flex-1">
 
             <label class="sr-only" for="category">Category</label>
-            <select id="category" name="category" class="rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <select id="category" name="category" class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 <option value="">All categories</option>
                 @foreach ($categories as $c)
                     <option value="{{ $c }}" @selected(request('category') === $c)>{{ $c }}</option>
@@ -27,7 +27,7 @@
             </select>
 
             <label class="sr-only" for="tag">Tag</label>
-            <select id="tag" name="tag" class="rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <select id="tag" name="tag" class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 <option value="">All tags</option>
                 @foreach ($tags as $tag)
                     <option value="{{ $tag->name }}" @selected(request('tag') === $tag->name)>{{ $tag->name }}</option>
@@ -37,12 +37,15 @@
             <button type="submit" class="rounded-md bg-blue-700 px-5 py-2 font-medium text-white hover:bg-blue-800">
                 Filter
             </button>
+            @if (request()->filled('q') || request()->filled('category') || request()->filled('tag'))
+                <a href="{{ route('posts.index') }}" class="rounded-md px-4 py-2 text-center font-medium text-blue-700 hover:bg-blue-50">Clear filters</a>
+            @endif
         </form>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($posts as $post)
                 <article class="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-                    <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+                    <div class="flex flex-col gap-3">
                         <div>
                             <div class="mb-2 flex flex-wrap items-center gap-2">
                                 <span class="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-medium text-blue-800">{{ $post->category }}</span>

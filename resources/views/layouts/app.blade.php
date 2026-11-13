@@ -6,7 +6,7 @@
     <title>@yield('title', 'Barangay Bulletin – Purok Liu')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-gray-100 text-gray-900">
+<body class="flex min-h-screen flex-col bg-gray-100 text-gray-900">
     <nav class="border-b border-blue-900 bg-blue-800 text-white shadow-sm">
         <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
             <a href="{{ route('posts.index') }}" class="flex items-center gap-3">
@@ -20,12 +20,13 @@
             </a>
 
             @auth
-                <div class="flex items-center gap-3 text-sm">
-                    <div class="hidden items-center gap-4 sm:flex">
+                <div class="flex flex-wrap items-center gap-3 text-sm">
+                    <div class="flex flex-wrap items-center gap-2">
                         <a href="{{ route('posts.index') }}" class="rounded-md px-3 py-2 text-blue-100 hover:bg-blue-700 hover:text-white">
                             Bulletin
                         </a>
                         @if (auth()->user()->author()->exists())
+                            <a href="{{ route('authors.show', auth()->user()->author()->value('id')) }}" class="rounded-md px-3 py-2 text-blue-100 hover:bg-blue-700 hover:text-white">My posts</a>
                             <a href="{{ route('posts.create') }}" class="rounded-md px-3 py-2 text-blue-100 hover:bg-blue-700 hover:text-white">
                                 New post
                             </a>

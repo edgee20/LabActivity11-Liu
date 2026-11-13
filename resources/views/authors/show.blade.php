@@ -12,6 +12,18 @@
             <p class="mt-4 text-sm text-gray-500">{{ $author->comments_count }} comments received</p>
         </header>
 
+        @if ($drafts->isNotEmpty())
+            <section class="mt-8 rounded-lg border border-amber-200 bg-amber-50 p-6">
+                <h2 class="text-2xl font-bold text-amber-900">Your drafts</h2>
+                <p class="mt-2 text-sm text-amber-800">Only you can see these unpublished posts.</p>
+                <ul class="mt-4 space-y-3">
+                    @foreach ($drafts as $draft)
+                        <li><a href="{{ route('posts.show', $draft) }}" class="font-medium text-blue-700 underline">{{ $draft->title }}</a></li>
+                    @endforeach
+                </ul>
+            </section>
+        @endif
+
         <section class="mt-8">
             <h2 class="text-2xl font-bold text-blue-900">Published posts</h2>
             <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -29,6 +41,14 @@
                         <p class="mt-2 text-sm text-gray-500">
                             Published {{ $post->published_at?->format('F j, Y') }} · {{ $post->views }} views
                         </p>
+                        <p class="mt-2 text-sm text-gray-500">
+                            By <a href="{{ route('authors.show', $post->author) }}" class="text-blue-700 hover:text-blue-900">{{ $post->author->name }}</a>
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            @foreach ($post->tags as $tag)
+                                <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700">{{ $tag->name }}</span>
+                            @endforeach
+                        </div>
                     </article>
                 @empty
                     <p class="rounded-lg bg-white p-6 text-gray-600 shadow-sm sm:col-span-2 lg:col-span-3">No published posts yet.</p>

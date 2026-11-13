@@ -28,7 +28,7 @@ class StorePostRequest extends FormRequest
             'body' => ['required', 'string', 'min:20'],
             'category' => ['required', 'in:Announcement,Health,Peace & Order,Ayuda,Community'],
             'tags' => ['required', 'array', 'min:1'],
-            'tags.*' => ['exists:tags,id'],
+            'tags.*' => ['integer', 'distinct', 'exists:tags,id'],
             'is_published' => ['boolean'],
         ];
     }
